@@ -23,6 +23,26 @@ func Test155(t *testing.T) {
 	s := []examples{
 		[]example{
 			{do: doConstruct, val: 0},
+			{do: doPush, val: 2147483646},
+			{do: doPush, val: 2147483646},
+			{do: doPush, val: 2147483647},
+			{do: doTop, val: 2147483647},
+			{do: doPop},
+			{do: doGetMin, val: 2147483646},
+			{do: doPop},
+			{do: doGetMin, val: 2147483646},
+			{do: doPop},
+			{do: doPush, val: 2147483647},
+			{do: doTop, val: 2147483647},
+			{do: doGetMin, val: 2147483647},
+			{do: doPush, val: -2147483648},
+			{do: doTop, val: -2147483648},
+			{do: doGetMin, val: -2147483648},
+			{do: doPop},
+			{do: doGetMin, val: 2147483647},
+		},
+		[]example{
+			{do: doConstruct, val: 0},
 			{do: doPush, val: 5},
 			{do: doPush, val: 3},
 			{do: doPush, val: 4},
@@ -66,8 +86,7 @@ func Test155(t *testing.T) {
 // ===
 
 type MinStack struct {
-	store []int
-	mins  []int
+	store [][]int
 }
 
 func Constructor() MinStack {
@@ -76,6 +95,41 @@ func Constructor() MinStack {
 }
 
 func (s *MinStack) Push(val int) {
+	min := val
+	if len(s.store) > 0 {
+		lastMin := s.store[len(s.store)-1][1]
+		if lastMin < min {
+			min = lastMin
+		}
+	}
+	s.store = append(s.store, []int{val, min})
+}
+
+func (s *MinStack) Pop() {
+	s.store = s.store[:len(s.store)-1]
+}
+
+func (s *MinStack) Top() int {
+	return s.store[len(s.store)-1][0]
+}
+
+func (s *MinStack) GetMin() int {
+	return s.store[len(s.store)-1][1]
+}
+
+// ===
+
+type MinStack2 struct {
+	store []int
+	mins  []int
+}
+
+func Constructor2() MinStack2 {
+	res := MinStack2{}
+	return res
+}
+
+func (s *MinStack2) Push(val int) {
 	s.store = append(s.store, val)
 
 	if s.mins == nil {
@@ -98,7 +152,7 @@ func (s *MinStack) Push(val int) {
 	s.mins = append(s.mins, val)
 }
 
-func (s *MinStack) Pop() {
+func (s *MinStack2) Pop() {
 	cur := s.store[len(s.store)-1]
 
 	s.store = s.store[:len(s.store)-1]
@@ -123,10 +177,10 @@ func (s *MinStack) Pop() {
 	}
 }
 
-func (s *MinStack) Top() int {
+func (s *MinStack2) Top() int {
 	return s.store[len(s.store)-1]
 }
 
-func (s *MinStack) GetMin() int {
+func (s *MinStack2) GetMin() int {
 	return s.mins[0]
 }
