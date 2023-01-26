@@ -25,9 +25,10 @@ func Test412(t *testing.T) {
 }
 
 func fizzBuzz(n int) []string {
-	var res []string
+	res := make([]string, n+1, n+1)
+	var r string
 	for i := 1; i <= n; i++ {
-		var r string
+		r = ""
 		if i%3 == 0 {
 			r = r + "Fizz"
 		}
@@ -37,7 +38,7 @@ func fizzBuzz(n int) []string {
 		if r == "" {
 			r = strconv.Itoa(i)
 		}
-		res = append(res, r)
+		res[i] = r
 	}
-	return res
+	return res[1:]
 }
