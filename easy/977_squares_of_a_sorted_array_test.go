@@ -22,6 +22,32 @@ func Test977(t *testing.T) {
 }
 
 func sortedSquares(nums []int) []int {
+	res := make([]int, len(nums))
+	pos := len(nums) - 1
+	L, R := 0, len(nums)-1
+	for {
+		if abs(nums[L]) > abs(nums[R]) {
+			res[pos] = nums[L] * nums[L]
+			L++
+		} else {
+			res[pos] = nums[R] * nums[R]
+			R--
+		}
+		pos--
+		if L > R {
+			return res
+		}
+	}
+}
+
+func abs(n int) int {
+	if n < 0 {
+		return -n
+	}
+	return n
+}
+
+func sortedSquares1(nums []int) []int {
 	var res []int
 	L, R := 0, len(nums)-1
 	for {
@@ -37,13 +63,6 @@ func sortedSquares(nums []int) []int {
 			return res
 		}
 	}
-}
-
-func abs(n int) int {
-	if n < 0 {
-		n *= -1
-	}
-	return n
 }
 
 func arrRev(nums []int) {
