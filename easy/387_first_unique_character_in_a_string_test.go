@@ -34,7 +34,6 @@ func firstUniqChar(s string) int {
 
 	for i, r := range s {
 		if _, ok := store[r]; !ok {
-
 			pos = append(pos, p{i, r})
 		}
 		store[r]++
