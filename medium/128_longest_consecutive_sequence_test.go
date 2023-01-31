@@ -12,8 +12,9 @@ func Test128(t *testing.T) {
 		want int
 	}
 	s := []examples{
-		{nums: []int{100, 4, 200, 1, 3, 2}, want: 4},
+		{nums: []int{}, want: 0},
 		{nums: []int{0, 3, 7, 2, 5, 8, 4, 6, 0, 1}, want: 9},
+		{nums: []int{100, 4, 200, 1, 3, 2}, want: 4},
 	}
 	for _, tst := range s {
 		require.Equal(t, tst.want, longestConsecutive(tst.nums), tst.nums)
@@ -21,6 +22,36 @@ func Test128(t *testing.T) {
 }
 
 func longestConsecutive(nums []int) int {
+	if len(nums) == 0 {
+		return 0
+	}
+
+	store := make(map[int]bool)
+
+	for _, num := range nums {
+		store[num] = true
+	}
+
+	maxSeq := 1
+	for num := range store {
+		if _, ok := store[num-1]; !ok {
+			seq := 1
+			for {
+				if _, okk := store[num+seq]; !okk {
+					break
+				}
+				seq++
+			}
+			if seq > maxSeq {
+				maxSeq = seq
+			}
+		}
+	}
+
+	return maxSeq
+}
+
+func longestConsecutive1(nums []int) int {
 	store := make(map[int]bool)
 
 	for _, num := range nums {
