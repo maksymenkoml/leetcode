@@ -30,17 +30,15 @@ func longestConsecutive(nums []int) int {
 
 	maxSeq := 0
 	for num := range store {
-		if _, ok := store[num-1]; !ok {
-			seq := 1
-			for {
-				if _, okk := store[num+seq]; !okk {
-					break
-				}
-				seq++
-			}
-			if seq > maxSeq {
-				maxSeq = seq
-			}
+		if store[num-1] {
+			continue
+		}
+		seq := 1
+		for store[num+seq] {
+			seq++
+		}
+		if seq > maxSeq {
+			maxSeq = seq
 		}
 	}
 
