@@ -22,17 +22,13 @@ func Test128(t *testing.T) {
 }
 
 func longestConsecutive(nums []int) int {
-	if len(nums) == 0 {
-		return 0
-	}
-
 	store := make(map[int]bool)
 
 	for _, num := range nums {
 		store[num] = true
 	}
 
-	maxSeq := 1
+	maxSeq := 0
 	for num := range store {
 		if _, ok := store[num-1]; !ok {
 			seq := 1
